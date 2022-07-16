@@ -4,55 +4,128 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
     <title>Validate me</title>
+    <script>
+        function validateMe() {
+
+            for (var i = 0; i < document.forms[0].elements.length; i++) {
+                var errorarea = document.forms[0].elements[i].name + "_error";
+                var msg = document.forms[0].elements[i].name;
+
+                if (document.forms[0].elements[i].value == '') {
+
+                    document.getElementById(errorarea).innerHTML = 'Please enter your ' + msg;
+                    document.getElementById(errorarea).style.color = '#ff0000';
+                    document.forms[0].elements[i].focus();
+                    return false;
+                }
+                else {
+                    document.getElementById(errorarea).innerHTML = '';
+                }
+
+                // radio button
+                var radioGrp = false;
+                if (document.forms[0].elements[i].type == 'radio') {
+                    const numelems = document.getElementsByName(msg).length;
+                    let elem = document.getElementsByName(msg);
+
+                    for (var j = 0; j < numelems; j++) {
+                        if (elem[j].checked == true) {
+                            radioGrp = true;
+                        }
+                    }
+
+                    if (radioGrp == false) {
+                        document.getElementById(errorarea).innerHTML = 'Please enter your ' + msg;
+                        document.getElementById(errorarea).style.color = '#ff0000';
+                        return false;
+                    }
+                    else {
+                        document.getElementById(errorarea).innerHTML = '';
+                    }
+                }
+
+                // check boxes
+                if (document.forms[0].elements[i].type == 'checkbox') {
+                    var checkGrp = false;
+                    var numChecked = 0;
+                    let elem = document.getElementsByName(msg);
+                    const numelems = document.getElementsByName(msg).length;
+
+                    for (var k = 0; k < numelems; k++) {
+                        if (elem[k].checked == true) {
+                            numChecked += 1;
+                        }
+                        if (numChecked != 0) {
+                            checkGrp = true;
+                        }
+                    }
+
+                    if (checkGrp == false) {
+                        document.getElementById(errorarea).innerHTML = 'Please enter your ' + msg;
+                        document.getElementById(errorarea).style.color = '#ff0000';
+
+                        return false;
+                    }
+                    else {
+                        document.getElementById(errorarea).innerHTML = '';
+                    }
+
+                }
+            }
+            return false;
+        }
+
+    </script>
 </head>
 
 <body>
-	At least one piece of data has to come in from every input type.
-	<form action="" method="get" onsubmit="return validateMe();"><br>
+    At least one piece of data has to come in from every input type.
+    <form action="" method="get" onsubmit="return validateMe();"><br>
 
-		<div>
-			Name:
-			<input type="text" id="test" name="fullname" placeholder="Enter Full Name"><br>
-			<span id="fullname_error"></span><br>
-		</div>
+        <div>
+            Name:
+            <input type="text" id="test" name="fullname" placeholder="Enter Full Name"><br>
+            <span id="fullname_error"></span><br>
+        </div>
 
-		<div>
-			Year in School:<br>
-			<input type="radio" name="year" value="first">First<br>
-			<input type="radio" name="year" value="second">Second<br>
-			<input type="radio" name="year" value="third">Third<br>
-			<span id="year_error"></span><br>
-		</div>
+        <div>
+            Year in School:<br>
+            <input type="radio" name="year" value="first">First<br>
+            <input type="radio" name="year" value="second">Second<br>
+            <input type="radio" name="year" value="third">Third<br>
+            <span id="year_error"></span><br>
+        </div>
 
-		<div>
-			Sports that you like:<br>
-			<input type="checkbox" name="sports[]" value="baseball"> Baseball<br> 
-			<input type="checkbox" name="sports[]" value="basketball"> Basketball<br> 
-			<input type="checkbox" name="sports[]" value="football"> Football<br> 
-			<input type="checkbox" name="sports[]" value="hockey"> Hockey<br>
-			<span id="sports[]_error"></span><br>
-		</div>
+        <div>
+            Sports that you like:<br>
+            <input type="checkbox" name="sports[]" value="baseball"> Baseball<br>
+            <input type="checkbox" name="sports[]" value="basketball"> Basketball<br>
+            <input type="checkbox" name="sports[]" value="football"> Football<br>
+            <input type="checkbox" name="sports[]" value="hockey"> Hockey<br>
+            <span id="sports[]_error"></span><br>
+        </div>
 
-		<div>
-			Favorite Show: <br><select id="show" name="show">
-				<option value="">Choose Below</option>
-				<option value="Family Guy">Family Guy</option>
-				<option value="Simpsons">Simpsons</option>
-				<option value="South Park">South Park</option>
-			</select><br>
-			<span id="show_error"></span><br>
-		</div>
+        <div>
+            Favorite Show: <br><select id="show" name="show">
+                <option value="">Choose Below</option>
+                <option value="Family Guy">Family Guy</option>
+                <option value="Simpsons">Simpsons</option>
+                <option value="South Park">South Park</option>
+            </select><br>
+            <span id="show_error"></span><br>
+        </div>
 
-		<div>
-			Comments<br>
-			<textarea cols="50" rows="6" name="comments"></textarea><br>
-			<span id="comments_error"></span>
-		</div>
+        <div>
+            Comments<br>
+            <textarea cols="50" rows="6" name="comments"></textarea><br>
+            <span id="comments_error"></span>
+        </div>
 
-		<input type="submit" name="submit" value="enter me">
-	</form>
-	<script>
-		console.log(document.forms[0]);
-	</script>
+        <input type="submit" name="submit" value="enter me">
+    </form>
+    <script>
+        console.log(document.forms[0]);
+    </script>
 </body>
+
 </html>
